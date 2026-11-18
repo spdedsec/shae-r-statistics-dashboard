@@ -1,0 +1,34 @@
+{
+  "name": "shae-r-statistics-dashboard",
+  "version": "0.1.0",
+  "description": "R-inspired statistics visualization dashboard with histogram and box plot on HTML5 canvas. Paste data or upload CSV.",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "node tests/test.js",
+    "start": "python3 -m http.server 8000 -d src",
+    "build": "echo 'Static site - no build step required'",
+    "clean": "rm -rf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spdedsec/shae-r-statistics-dashboard.git"
+  },
+  "keywords": [
+    "statistics",
+    "visualization",
+    "dashboard",
+    "histogram",
+    "boxplot",
+    "csv",
+    "r",
+    "data-analysis",
+    "shae"
+  ],
+  "author": "spdedsec <legendsatya7272@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/spdedsec/shae-r-statistics-dashboard/issues"
+  },
+  "homepage": "https://spdedsec.github.io/shae-r-statistics-dashboard/",
+  "type": "module"
+}

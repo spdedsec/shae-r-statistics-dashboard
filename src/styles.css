@@ -1,0 +1,197 @@
+/* ========================================================================
+   SHAE R Statistics Dashboard — styles.css
+   SHAE Field Manual design system
+   Warm paper #F2EEE5, ink #191712, oxide #B3341B
+   0px radius, 1px borders, border-defined cards
+   Archivo / Instrument Sans / JetBrains Mono
+   ======================================================================== */
+
+:root {
+  --paper: #F2EEE5;
+  --ink: #191712;
+  --oxide: #B3341B;
+  --oxide-dark: #8a2716;
+  --muted: #6e675e;
+  --border: #cfc8ba;
+  --line: 1px solid var(--border);
+}
+
+html { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Typography */
+.display { font-family: Archivo, "Instrument Sans", sans-serif; font-weight: 700; }
+.mono { font-family: "JetBrains Mono", "Courier New", Courier, monospace; }
+
+h1, h2, h3, .card-title {
+  font-family: Archivo, "Instrument Sans", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0 0 0.75rem 0;
+}
+.card-title { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+label, .label, .stat-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+/* Layout */
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: var(--line);
+  background: var(--paper);
+}
+.brand { display: flex; align-items: center; gap: 0.5rem; }
+.chip {
+  display: inline-block;
+  border: var(--line);
+  padding: 0.18rem 0.5rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--oxide);
+}
+.title { font-family: Archivo, sans-serif; font-weight: 700; font-size: 1.25rem; }
+.meta .label { font-size: 0.7rem; color: var(--muted); margin-left: 0.75rem; }
+.meta .signal { color: var(--oxide); }
+
+.page { max-width: 1100px; margin: 1.5rem auto 3rem; padding: 0 1.5rem; }
+
+/* Cards — border-defined, 0 radius */
+.card {
+  border: var(--line);
+  background: var(--paper);
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Input grid */
+.input-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 1rem;
+  align-items: start;
+}
+@media (max-width: 700px) {
+  .input-grid { grid-template-columns: 1fr; }
+}
+textarea {
+  width: 100%;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.9rem;
+  background: #fffdf6;
+  color: var(--ink);
+  border: var(--line);
+  border-radius: 0;
+  padding: 0.75rem;
+  resize: vertical;
+  transition: border-color 180ms ease;
+}
+textarea:focus {
+  outline: none;
+  border-color: var(--oxide);
+  box-shadow: 0 0 0 2px rgba(179, 52, 27, 0.15);
+}
+
+.actions { display: flex; gap: 0.5rem; align-items: end; }
+
+/* Stats grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+.stat {
+  border: var(--line);
+  padding: 0.85rem 0.75rem;
+  background: #fffdf6;
+}
+.stat-value {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 0.25rem;
+  display: block;
+}
+
+/* Buttons */
+.btn {
+  border: var(--line);
+  background: #fffdf6;
+  color: var(--ink);
+  padding: 0.6rem 1rem;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 0;
+  transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+}
+.btn:hover { border-color: var(--oxide); }
+.btn.signal {
+  border-color: var(--oxide);
+  color: var(--oxide);
+  font-weight: 700;
+}
+.btn.signal:hover {
+  background: var(--oxide);
+  color: #fffdf6;
+}
+
+/* Charts */
+.chart-wrap {
+  border: var(--line);
+  background: #fffdf6;
+  padding: 0.75rem;
+  margin-top: 0.75rem;
+}
+canvas { width: 100%; height: auto; display: block; }
+
+/* Hint / helpers */
+.hint {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
+
+/* Footer */
+footer .brand { justify-content: flex-end; }
+footer .label { font-size: 0.7rem; color: var(--muted); }
+
+/* Focus rings — accessibility */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2.5px var(--oxide);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

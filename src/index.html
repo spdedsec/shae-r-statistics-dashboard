@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHAE R Statistics Dashboard</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <span class="chip">SHAE</span>
+    <span class="title">R Statistics Dashboard</span>
+  </div>
+  <div class="meta">
+    <span class="label">Paper</span>
+    <span class="label">Ink data</span>
+    <span class="label signal">Oxide accents</span>
+  </div>
+</header>
+
+<main class="page">
+
+  <section class="card" id="input-card">
+    <h2 class="card-title">Data Input</h2>
+    <div class="input-grid">
+      <div>
+        <label class="field-label" for="paste">Paste numbers</label>
+        <textarea id="paste" rows="6" placeholder="1, 2, 3, 4, 5 ..."></textarea>
+      </div>
+      <div>
+        <label class="field-label" for="csv">Upload CSV</label>
+        <input type="file" id="csv" accept=".csv">
+      </div>
+      <div class="actions">
+        <button class="btn signal" id="calc">Compute statistics</button>
+        <button class="btn" id="clear">Clear</button>
+      </div>
+    </div>
+    <p class="hint">Comma, space, tab, or newline separated values.</p>
+  </section>
+
+  <section class="card" id="stats-card">
+    <h2 class="card-title">Statistics</h2>
+    <div class="stats-grid">
+      <div class="stat">
+        <span class="stat-label">Count</span>
+        <span class="stat-value" id="val-count">—</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Mean</span>
+        <span class="stat-value" id="val-mean">—</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Median</span>
+        <span class="stat-value" id="val-median">—</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Mode</span>
+        <span class="stat-value" id="val-mode">—</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Std Dev</span>
+        <span class="stat-value" id="val-stddev">—</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Variance</span>
+        <span class="stat-value" id="val-variance">—</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" id="charts-card">
+    <h2 class="card-title">Charts</h2>
+    <div class="chart-wrap">
+      <canvas id="histogram" width="700" height="300"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <canvas id="boxplot" width="700" height="220"></canvas>
+    </div>
+  </section>
+
+</main>
+
+<footer class="top">
+  <div class="brand small">
+    <span class="label">SHAE &middot; 2026</span>
+    <span class="label">Warm paper &#8226; Ink data &#8226; Oxide signal</span>
+  </div>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
