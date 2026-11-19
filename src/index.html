@@ -3,90 +3,93 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHAE R Statistics Dashboard</title>
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="R Statistics Dashboard - Apple HIG data analysis and statistical visualization">
+<title>Statistics Dashboard</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<header class="top">
+<header class="top" role="banner">
   <div class="brand">
-    <span class="chip">SHAE</span>
-    <span class="title">R Statistics Dashboard</span>
+    <span class="chip">STATISTICS</span>
+    <span class="title">Data Dashboard</span>
   </div>
   <div class="meta">
-    <span class="label">Paper</span>
-    <span class="label">Ink data</span>
-    <span class="label signal">Oxide accents</span>
+    <span class="label">R Engine</span>
+    <span class="label">Apple HIG</span>
   </div>
 </header>
 
-<main class="page">
+<main class="page" role="main">
 
-  <section class="card" id="input-card">
-    <h2 class="card-title">Data Input</h2>
+  <section class="card" id="input-card" aria-labelledby="input-title">
+    <h2 class="card-title" id="input-title">Data Input</h2>
     <div class="input-grid">
       <div>
-        <label class="field-label" for="paste">Paste numbers</label>
-        <textarea id="paste" rows="6" placeholder="1, 2, 3, 4, 5 ..."></textarea>
+        <label class="field-label" for="paste">Paste Numbers</label>
+        <textarea id="paste" rows="6" placeholder="12, 19, 3, 5, 2, 3, 9, 14, 25, 18, 30 ..."></textarea>
       </div>
       <div>
         <label class="field-label" for="csv">Upload CSV</label>
-        <input type="file" id="csv" accept=".csv">
+        <input type="file" id="csv" accept=".csv" aria-label="Upload CSV dataset">
       </div>
       <div class="actions">
-        <button class="btn signal" id="calc">Compute statistics</button>
-        <button class="btn" id="clear">Clear</button>
+        <button class="btn signal" id="calc" aria-label="Compute statistics">Compute</button>
+        <button class="btn" id="clear" aria-label="Clear inputs and statistics">Clear</button>
       </div>
     </div>
-    <p class="hint">Comma, space, tab, or newline separated values.</p>
+    <p class="hint">Supports comma, space, tab, or newline separated numeric values.</p>
   </section>
 
-  <section class="card" id="stats-card">
-    <h2 class="card-title">Statistics</h2>
-    <div class="stats-grid">
+  <section class="card" id="stats-card" aria-labelledby="stats-title">
+    <h2 class="card-title" id="stats-title">Descriptive Statistics</h2>
+    <div class="stats-grid" role="region" aria-live="polite">
       <div class="stat">
         <span class="stat-label">Count</span>
-        <span class="stat-value" id="val-count">—</span>
+        <span class="stat-value" id="val-count">&mdash;</span>
       </div>
       <div class="stat">
         <span class="stat-label">Mean</span>
-        <span class="stat-value" id="val-mean">—</span>
+        <span class="stat-value" id="val-mean">&mdash;</span>
       </div>
       <div class="stat">
         <span class="stat-label">Median</span>
-        <span class="stat-value" id="val-median">—</span>
+        <span class="stat-value" id="val-median">&mdash;</span>
       </div>
       <div class="stat">
         <span class="stat-label">Mode</span>
-        <span class="stat-value" id="val-mode">—</span>
+        <span class="stat-value" id="val-mode">&mdash;</span>
       </div>
       <div class="stat">
         <span class="stat-label">Std Dev</span>
-        <span class="stat-value" id="val-stddev">—</span>
+        <span class="stat-value" id="val-stddev">&mdash;</span>
       </div>
       <div class="stat">
         <span class="stat-label">Variance</span>
-        <span class="stat-value" id="val-variance">—</span>
+        <span class="stat-value" id="val-variance">&mdash;</span>
       </div>
     </div>
   </section>
 
-  <section class="card" id="charts-card">
-    <h2 class="card-title">Charts</h2>
+  <section class="card" id="charts-card" aria-labelledby="charts-title">
+    <h2 class="card-title" id="charts-title">Visualizations</h2>
     <div class="chart-wrap">
-      <canvas id="histogram" width="700" height="300"></canvas>
+      <canvas id="histogram" width="700" height="300" aria-label="Histogram distribution"></canvas>
     </div>
     <div class="chart-wrap">
-      <canvas id="boxplot" width="700" height="220"></canvas>
+      <canvas id="boxplot" width="700" height="220" aria-label="Box plot distribution"></canvas>
     </div>
   </section>
 
 </main>
 
-<footer class="top">
+<footer class="top" role="contentinfo">
   <div class="brand small">
-    <span class="label">SHAE &middot; 2026</span>
-    <span class="label">Warm paper &#8226; Ink data &#8226; Oxide signal</span>
+    <span class="label">Apple Human Interface Guidelines &middot; 2026</span>
+  </div>
+  <div class="meta">
+    <a href="https://github.com/spdedsec/shae-r-statistics-dashboard" target="_blank" rel="noopener" class="label" style="text-decoration:none; color:var(--system-blue)">GitHub</a>
   </div>
 </footer>
 

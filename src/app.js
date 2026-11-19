@@ -102,6 +102,21 @@ function clearRect(ctx, width, height) {
   ctx.clearRect(0, 0, width, height);
 }
 
+function getThemeColors() {
+  const isDark = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  return {
+    axis: isDark ? "rgba(84, 84, 88, 0.65)" : "rgba(60, 60, 67, 0.25)",
+    text: isDark ? "rgba(235, 235, 245, 0.60)" : "rgba(60, 60, 67, 0.60)",
+    title: isDark ? "#FFFFFF" : "#000000",
+    bar: isDark ? "#0A84FF" : "#007AFF",
+    barStroke: isDark ? "#409CFF" : "#0062CC",
+    boxFill: isDark ? "#5E5CE6" : "#5856D6",
+    boxStroke: isDark ? "rgba(255, 255, 255, 0.8)" : "rgba(0, 0, 0, 0.8)",
+    median: isDark ? "#FFD60A" : "#FF9500",
+    font: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif",
+  };
+}
+
 function drawAxis(ctx, { left, right, top, bottom, color }) {
   ctx.strokeStyle = color;
   ctx.lineWidth = 1;
@@ -113,9 +128,10 @@ function drawAxis(ctx, { left, right, top, bottom, color }) {
   ctx.stroke();
 }
 
-function drawText(ctx, text, x, y, { color = "#191712", size = 10, align = "left", font = "JetBrains Mono, monospace", bold = false } = {}) {
-  ctx.font = (bold ? "bold " : "") + size + "px " + font;
-  ctx.fillStyle = color;
+function drawText(ctx, text, x, y, { color, size = 11, align = "left", font, bold = false } = {}) {
+  const theme = getThemeColors();
+  ctx.font = (bold ? "600 " : "400 ") + size + "px " + (font || theme.font);
+  ctx.fillStyle = color || theme.text;
   ctx.textAlign = align;
   ctx.textBaseline = "middle";
   ctx.fillText(text, x, y);
@@ -124,11 +140,12 @@ function drawText(ctx, text, x, y, { color = "#191712", size = 10, align = "left
 /* ---- Histogram -------------------------------------------------------- */
 
 function drawHistogram(canvas, values) {
+  const theme = getThemeColors();
   const ctx = fitCanvas(canvas, 700, 300);
   clearRect(ctx, 700, 300);
 
   if (!values || values.length === 0) {
-    drawText(ctx, "No data", 350, 150, { align: "center", color: "#6e675e" });
+    drawText(ctx, "No data available", 350, 150, { align: "center", color: theme.text, size: 14 });
     return;
   }
 
@@ -156,20 +173,21 @@ function drawHistogram(canvas, values) {
   drawAxis(ctx, {
     left: margin.left, right: margin.left + w,
     top: margin.top, bottom: margin.bottom + h,
-    color: "#cfc8ba",
+    color: theme.axis,
   });
-  drawText(ctx, "Value", margin.left + w / 2, margin.bottom + h + 30, { align: "center", size: 10, color: "#6e675e" });
+  drawText(ctx, "Frequency Distribution", margin.left + w / 2, margin.top - 12, { align: "center", size: 13, color: theme.title, bold: true });
+  drawText(ctx, "Value", margin.left + w / 2, margin.bottom + h + 30, { align: "center", size: 11, color: theme.text });
   for (let i = 0; i <= binCount; i++) {
     const x = scaleX(i);
-    ctx.strokeStyle = "#cfc8ba"; ctx.lineWidth = 1;
+    ctx.strokeStyle = theme.axis; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(x, margin.bottom + h); ctx.lineTo(x, margin.bottom + h + 4); ctx.stroke();
     const val = min + i * binWidth;
-    drawText(ctx, val.toFixed(1), x, margin.bottom + h + 16, { size: 9, align: "center", color: "#6e675e" });
+    drawText(ctx, val.toFixed(1), x, margin.bottom + h + 16, { size: 10, align: "center", color: theme.text });
   }
   for (let i = 0; i <= 5; i++) {
     const y = margin.bottom + h - (i / 5) * h;
     ctx.beginPath(); ctx.moveTo(margin.left - 4, y); ctx.lineTo(margin.left, y); ctx.stroke();
-    drawText(ctx, Math.round((maxBin / 5) * i), margin.left - 8, y, { size: 9, align: "right", color: "#6e675e" });
+    drawText(ctx, Math.round((maxBin / 5) * i), margin.left - 8, y, { size: 10, align: "right", color: theme.text });
   }
 
   for (let i = 0; i < binCount; i++) {
@@ -177,9 +195,9 @@ function drawHistogram(canvas, values) {
     const bw = w / binCount * 0.85;
     const y = scaleY(bins[i]);
     const bh = margin.bottom + h - y;
-    ctx.fillStyle = bins[i] > 0 ? "#B3341B" : "#cfc8ba";
+    ctx.fillStyle = bins[i] > 0 ? theme.bar : theme.axis;
     ctx.fillRect(x + (w / binCount - bw) / 2, y, bw, bh);
-    ctx.strokeStyle = "#191712"; ctx.lineWidth = 1;
+    ctx.strokeStyle = theme.barStroke; ctx.lineWidth = 1;
     ctx.strokeRect(x + (w / binCount - bw) / 2, y, bw, bh);
   }
 }
@@ -187,11 +205,12 @@ function drawHistogram(canvas, values) {
 /* ---- Box plot ---------------------------------------------------------- */
 
 function drawBoxPlot(canvas, values) {
+  const theme = getThemeColors();
   const ctx = fitCanvas(canvas, 700, 220);
   clearRect(ctx, 700, 220);
 
   if (!values || values.length === 0) {
-    drawText(ctx, "No data", 350, 110, { align: "center", color: "#6e675e" });
+    drawText(ctx, "No data available", 350, 110, { align: "center", color: theme.text, size: 14 });
     return;
   }
 
@@ -218,19 +237,19 @@ function drawBoxPlot(canvas, values) {
   drawAxis(ctx, {
     left: margin.left, right: margin.left + w,
     top: margin.top, bottom: margin.bottom + h,
-    color: "#cfc8ba",
+    color: theme.axis,
   });
-  drawText(ctx, "Box Plot", margin.left + w / 2, margin.top - 10, { align: "center", size: 11, color: "#191712", bold: true });
-  drawText(ctx, "Value", margin.left + w / 2, margin.bottom + h + 25, { align: "center", size: 10, color: "#6e675e" });
+  drawText(ctx, "Box Plot", margin.left + w / 2, margin.top - 10, { align: "center", size: 13, color: theme.title, bold: true });
+  drawText(ctx, "Value", margin.left + w / 2, margin.bottom + h + 25, { align: "center", size: 11, color: theme.text });
 
   const tickVals = [minV, lowerWhisker, q1, q2, q3, upperWhisker, maxV];
   for (const v of tickVals) {
     const x = scaleX(v);
     ctx.beginPath(); ctx.moveTo(x, margin.bottom + h); ctx.lineTo(x, margin.bottom + h + 4); ctx.stroke();
-    drawText(ctx, v.toFixed(1), x, margin.bottom + h + 16, { size: 8, align: "center", color: "#6e675e" });
+    drawText(ctx, v.toFixed(1), x, margin.bottom + h + 16, { size: 9, align: "center", color: theme.text });
   }
 
-  ctx.strokeStyle = "#191712"; ctx.lineWidth = 2;
+  ctx.strokeStyle = theme.boxStroke; ctx.lineWidth = 2;
   ctx.beginPath();
   ctx.moveTo(scaleX(lowerWhisker), margin.bottom + h / 2);
   ctx.lineTo(scaleX(q1), margin.bottom + h / 2);
@@ -240,12 +259,12 @@ function drawBoxPlot(canvas, values) {
   ctx.lineTo(scaleX(upperWhisker), margin.bottom + h / 2);
   ctx.stroke();
 
-  ctx.fillStyle = "#B3341B";
+  ctx.fillStyle = theme.boxFill;
   ctx.fillRect(scaleX(q1), margin.bottom + h / 2 - 14, scaleX(q3) - scaleX(q1), 28);
-  ctx.strokeStyle = "#191712"; ctx.lineWidth = 1;
+  ctx.strokeStyle = theme.boxStroke; ctx.lineWidth = 1;
   ctx.strokeRect(scaleX(q1), margin.bottom + h / 2 - 14, scaleX(q3) - scaleX(q1), 28);
 
-  ctx.strokeStyle = "#191712"; ctx.lineWidth = 3;
+  ctx.strokeStyle = theme.median; ctx.lineWidth = 3;
   ctx.beginPath();
   ctx.moveTo(scaleX(q2), margin.bottom + h / 2 - 14);
   ctx.lineTo(scaleX(q2), margin.bottom + h / 2 + 14);
@@ -253,6 +272,7 @@ function drawBoxPlot(canvas, values) {
 
   const outlierMin = q1 - 1.5 * iqr;
   const outlierMax = q3 + 1.5 * iqr;
+  ctx.fillStyle = theme.bar;
   for (const v of s) {
     if (v < outlierMin || v > outlierMax) {
       const x = scaleX(v);
@@ -347,6 +367,13 @@ function init() {
   const clear = clearBtn();
   if (calc) calc.addEventListener("click", () => compute());
   if (clear) clear.addEventListener("click", clearAll);
+  
+  if (typeof window !== "undefined" && window.matchMedia) {
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+      compute();
+    });
+  }
+
   clearAll();
 }
 
